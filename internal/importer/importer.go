@@ -48,8 +48,8 @@ func (img *Image) ReadImage() error {
 }
 
 func (img *Image) ScaleImageRation(ratio float32) {
-	newWidth := int32(float32(img.Width) * ratio)
-	newHeight := int32(float32(img.Width) * ratio)
+	newWidth := int32(float32(img.Width) * ratio / 2)
+	newHeight := int32(float32(img.Height) * ratio / 3)
 
 	img.ScaleImageBounds(newWidth, newHeight)
 
@@ -76,9 +76,9 @@ func (img *Image) GetColorMap() {
 		for x := 0; x < img.Width; x++ {
 			cords := (*img.ImageValue).At(x, y)
 			r, g, b, _ := cords.RGBA()
-			redRow = append(redRow, int32(r>>8))
-			greenRow = append(greenRow, int32(g>>8))
-			blueRow = append(blueRow, int32(b>>8))
+			redRow = append(redRow, int32(r))
+			greenRow = append(greenRow, int32(g))
+			blueRow = append(blueRow, int32(b))
 
 		}
 		redMap = append(redMap, redRow)
@@ -92,20 +92,20 @@ func (img *Image) GetColorMap() {
 
 }
 
-func (img *Image) GetBrightness() {
-	newBrightnessMap := make([][]int32, 0)
-	for y := 0; y < img.Height; y++ {
-		row := make([]int32, 0)
-		for x := 0; x < img.Width; x++ {
-			r, g, b, _ := (*img.ImageValue).At(x, y).RGBA()
-			brightness := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 257
-			row = append(row, int32(brightness))
-		}
-		newBrightnessMap = append(newBrightnessMap, row)
-	}
-	img.BrightnessMap = newBrightnessMap
-
-}
+// func (img *Image) GetBrightness() {
+// 	newBrightnessMap := make([][]int32, 0)
+// 	for y := 0; y < img.Height; y++ {
+// 		row := make([]int32, 0)
+// 		for x := 0; x < img.Width; x++ {
+// 			r, g, b, _ := (*img.ImageValue).At(x, y).RGBA()
+// 			brightness := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 257
+// 			row = append(row, int32(brightness))
+// 		}
+// 		newBrightnessMap = append(newBrightnessMap, row)
+// 	}
+// 	img.BrightnessMap = newBrightnessMap
+//
+// }
 
 func (img *Image) GetGrayScale() {
 	newGrayScaleMap := make([][]int32, 0)
