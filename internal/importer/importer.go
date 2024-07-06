@@ -92,20 +92,20 @@ func (img *Image) GetColorMap() {
 
 }
 
-// func (img *Image) GetBrightness() {
-// 	newBrightnessMap := make([][]int32, 0)
-// 	for y := 0; y < img.Height; y++ {
-// 		row := make([]int32, 0)
-// 		for x := 0; x < img.Width; x++ {
-// 			r, g, b, _ := (*img.ImageValue).At(x, y).RGBA()
-// 			brightness := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 257
-// 			row = append(row, int32(brightness))
-// 		}
-// 		newBrightnessMap = append(newBrightnessMap, row)
-// 	}
-// 	img.BrightnessMap = newBrightnessMap
-//
-// }
+func (img *Image) GetBrightness() {
+	newBrightnessMap := make([][]int32, 0)
+	for y := 0; y < img.Height; y++ {
+		row := make([]int32, 0)
+		for x := 0; x < img.Width; x++ {
+			r, g, b, _ := (*img.ImageValue).At(x, y).RGBA()
+			brightness := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 257
+			row = append(row, int32(brightness))
+		}
+		newBrightnessMap = append(newBrightnessMap, row)
+	}
+	img.BrightnessMap = newBrightnessMap
+
+}
 
 func (img *Image) GetGrayScale() {
 	newGrayScaleMap := make([][]int32, 0)

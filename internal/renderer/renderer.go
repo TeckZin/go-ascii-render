@@ -24,13 +24,11 @@ type AsciiImage struct {
 }
 
 func InitAsciiImage(imageData *importer.Image) (*AsciiImage, error) {
-	// fmt.Println(imageData.RedColorMap)
 
 	asciiImage := &AsciiImage{}
 
-	// asciiImage.convertBrightnessToAscii(imageData.BrightnessMap, int32(imageData.Width), int32(imageData.Height))
+	asciiImage.convertBrightnessToAscii(imageData.BrightnessMap, int32(imageData.Width), int32(imageData.Height))
 
-	asciiImage.converGrayScaleToAscii(imageData)
 	asciiImage.getImageColor(imageData)
 	asciiImage.getAnsiEncoding()
 
@@ -45,43 +43,15 @@ func rgbToANSI(rgb Color) string {
 	return fmt.Sprintf("\033[38;5;%dm", 16+36*r+6*g+b)
 }
 
-// func (a *AsciiImage) convertBrightnessToAscii(brightnessMap [][]int32, width int32, height int32) {
-// 	for _, b := range brightnessMap {
-// 		fmt.Println(b)
-// 	}
-//
-// 	asciiCharacters := []string{"@", "$", "%", "#", "*", "+", "=", "-", ":", "."}
-//
-// 	// asciiCharacters := []string{".", ":", "-", "=", "+", "*", "#", "%", "$", "@"}
-// 	for y := 0; y < int(height); y++ {
-// 		var out string
-// 		row := make([]*Pixel, 0)
-// 		for x := 0; x < int(width); x++ {
-// 			ascii := asciiCharacters[int(brightnessMap[y][x])*(len(asciiCharacters)-1)/255]
-// 			out = out + ascii
-// 			pixel := &Pixel{}
-// 			pixel.AsciiCharacter = ascii[0]
-// 			row = append(row, pixel)
-// 		}
-// 		a.PixelMap = append(a.PixelMap, row)
-// 		// fmt.Println(out)
-//
-// 	}
-//
-// }
+func (a *AsciiImage) convertBrightnessToAscii(brightnessMap [][]int32, width int32, height int32) {
+	// asciiCharacters := []string{"@", "$", "%", "#", "*", "+", "=", "-", ":", "."}
 
-func (a *AsciiImage) converGrayScaleToAscii(img *importer.Image) {
-	// for _, g := range img.GrayScaleMap {
-	// 	fmt.Println(g)
-	//
-	// }
-	//
-	asciiCharacters := []string{"@", "$", "%", "#", "*", "+", "=", "-", ":", "."}
-	for y := 0; y < int(img.Height); y++ {
+	asciiCharacters := []string{".", ":", "-", "=", "+", "*", "#", "%", "$", "@"}
+	for y := 0; y < int(height); y++ {
 		var out string
 		row := make([]*Pixel, 0)
-		for x := 0; x < int(img.Width); x++ {
-			ascii := asciiCharacters[int(img.GrayScaleMap[y][x])*(len(asciiCharacters)-1)/255]
+		for x := 0; x < int(width); x++ {
+			ascii := asciiCharacters[int(brightnessMap[y][x])*(len(asciiCharacters)-1)/255]
 			out = out + ascii
 			pixel := &Pixel{}
 			pixel.AsciiCharacter = ascii[0]
@@ -93,6 +63,30 @@ func (a *AsciiImage) converGrayScaleToAscii(img *importer.Image) {
 	}
 
 }
+
+// func (a *AsciiImage) convertGrayScaleToAscii(img *importer.Image) {
+// 	// for _, g := range img.GrayScaleMap {
+// 	// 	fmt.Println(g)
+// 	//
+// 	// }
+// 	//
+// 	asciiCharacters := []string{"@", "$", "%", "#", "*", "+", "=", "-", ":", "."}
+// 	for y := 0; y < int(img.Height); y++ {
+// 		var out string
+// 		row := make([]*Pixel, 0)
+// 		for x := 0; x < int(img.Width); x++ {
+// 			ascii := asciiCharacters[int(img.GrayScaleMap[y][x])*(len(asciiCharacters)-1)/255]
+// 			out = out + ascii
+// 			pixel := &Pixel{}
+// 			pixel.AsciiCharacter = ascii[0]
+// 			row = append(row, pixel)
+// 		}
+// 		a.PixelMap = append(a.PixelMap, row)
+// 		// fmt.Println(out)
+//
+// 	}
+//
+// }
 
 func (a *AsciiImage) getImageColor(img *importer.Image) {
 	for y, row := range img.RedColorMap {

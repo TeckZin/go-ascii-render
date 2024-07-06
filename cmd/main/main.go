@@ -19,9 +19,10 @@ func main() {
 		return
 	}
 
-	imageFile.ScaleImageRation(0.15)
+	imageFile.ScaleImageRation(0.18)
 	imageFile.GetColorMap()
-	imageFile.GetGrayScale()
+	// imageFile.GetGrayScale()
+	imageFile.GetBrightness()
 
 	asciiImage, err := renderer.InitAsciiImage(imageFile)
 
